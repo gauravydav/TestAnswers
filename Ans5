@@ -1,0 +1,51 @@
+function findKthLargest(nums, k) {
+    function quickSelect(left, right) {
+      if (left === right) {
+        return nums[left];
+      }
+      
+      const pivotIndex = partition(left, right);
+      
+      if (k === pivotIndex) {
+        return nums[k];
+      } else if (k < pivotIndex) {
+        return quickSelect(left, pivotIndex - 1);
+      } else {
+        return quickSelect(pivotIndex + 1, right);
+      }
+    }
+    
+    function partition(left, right) {
+      const pivotValue = nums[right];
+      let storeIndex = left;
+      
+      for (let i = left; i < right; i++) {
+        if (compare(nums[i], pivotValue) < 0) {
+          swap(i, storeIndex);
+          storeIndex++;
+        }
+      }
+      
+      swap(storeIndex, right);
+      
+      return storeIndex;
+    }
+    
+    function swap(i, j) {
+      const temp = nums[i];
+      nums[i] = nums[j];
+      nums[j] = temp;
+    }
+    
+    function compare(a, b) {
+      const strA = a.toString();
+      const strB = b.toString();
+      return (strA + strB).localeCompare(strB + strA);
+    }
+  
+    return quickSelect(0, nums.length - 1);
+  }
+  
+  // Test case
+  console.log(findKthLargest([10, 4, 12, 9, 87, 34], 2)); 
+  

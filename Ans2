@@ -1,0 +1,44 @@
+function areAnagrams(word1, word2) {
+  if (word1.length !== word2.length) return false;
+
+  const charCount = new Array(26).fill(0);
+
+  for (let i = 0; i < word1.length; i++) {
+    charCount[word1.charCodeAt(i) - 'a'.charCodeAt(0)]++;
+    charCount[word2.charCodeAt(i) - 'a'.charCodeAt(0)]--;
+  }
+
+  for (let count of charCount) {
+    if (count !== 0) return false;
+  }
+
+  return true;
+}
+
+function groupAnagrams(strs) {
+  const groups = [];
+  const visited = new Array(strs.length).fill(false);
+
+  for (let i = 0; i < strs.length; i++) {
+    if (!visited[i]) {
+      const group = [strs[i]];
+      visited[i] = true;
+
+      for (let j = i + 1; j < strs.length; j++) {
+        if (!visited[j] && areAnagrams(strs[i], strs[j])) {
+          group.push(strs[j]);
+          visited[j] = true;
+        }
+      }
+
+      groups.push(group);
+    }
+  }
+
+  return groups;
+}
+
+// Test cases
+console.log(groupAnagrams(["eat", "tea", "tan", "ate", "nat", "bat"]));
+console.log(groupAnagrams([""]));
+console.log(groupAnagrams(["a"]))

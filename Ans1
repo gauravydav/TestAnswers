@@ -1,0 +1,46 @@
+function isPrime(n) {
+  if (n <= 1) return false;
+  if (n <= 3) return true;
+  if (n % 2 === 0 || n % 3 === 0) return false;
+  let i = 5;
+  while (i * i <= n) {
+    if (n % i === 0 || n % (i + 2) === 0) return false;
+    i += 6;
+  }
+  return true;
+}
+
+function reverseAndCheckPrimeFactors(X) {
+  if (X <= 0) return "No";
+
+  // Reverse the digits of X
+  const reversedX = parseInt(String(X).split('').reverse().join(''), 10);
+
+  function getPrimeFactors(number) {
+    const factors = [];
+    let i = 2;
+    while (i * i <= number) {
+      if (number % i === 0) {
+        factors.push(i);
+        number /= i;
+      } else {
+        i++;
+      }
+    }
+    if (number > 1) factors.push(number);
+    return factors;
+  }
+
+  const reversedFactors = getPrimeFactors(reversedX);
+
+  if (reversedFactors.length > 0) {
+    return ["Yes", reversedFactors];
+  } else {
+    return "No";
+  }
+}
+
+// Test cases
+console.log(reverseAndCheckPrimeFactors(123));  
+console.log(reverseAndCheckPrimeFactors(1500)); 
+console.log(reverseAndCheckPrimeFactors(1000)); 
